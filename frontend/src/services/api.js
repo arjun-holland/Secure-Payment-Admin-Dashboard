@@ -25,7 +25,7 @@ export const createPayment = async ({
 }) => {
 
   const response = await API.post(
-    "/payments",
+    "/api/payments",
     { name, userId, amount },
     {
       headers: {
@@ -39,11 +39,11 @@ export const createPayment = async ({
 
 // NEW FUNCTION
 export const getPayments = async () => {
-  const response = await API.get("/payments");
+  const response = await API.get("/api/payments");
   return response.data;
 };
 
 export const deletePayment = async (id) => {
-  const response = await API.delete(`/payments/${id}`);
+  const response = await API.delete(`/api/payments/${id}`);
   return response.data;
 };
