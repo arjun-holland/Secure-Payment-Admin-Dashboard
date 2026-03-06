@@ -19,7 +19,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://paymentadmindashboard-aakhnrh1x-arjuns-projects-eb45d837.vercel.app",
+      "https://secure-payment-admin-dashboard-1.onrender.com",
       "http://localhost:5173"
     ],
     credentials: true
