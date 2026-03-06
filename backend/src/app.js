@@ -16,20 +16,12 @@ const { initRedis } = require("./utils/redisClient");
 const app = express();
 
 // ✅ Enable CORS
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "http://localhost:5173"
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "https://paymentadmindashboard-aakhnrh1x-arjuns-projects-eb45d837.vercel.app",
+      "http://localhost:5173"
+    ],
     credentials: true
   })
 );
