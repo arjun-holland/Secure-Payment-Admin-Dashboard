@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");   // ✅ ADD THIS
 const paymentRoutes = require("./routes/paymentRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ mongoose
   });
 
 // Routes
+app.use("/api/auth", authRoutes);
 app.use("/api", paymentRoutes);
 
 module.exports = app;

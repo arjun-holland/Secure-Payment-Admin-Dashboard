@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPayments } from "../services/api";
+import { getPayments, deletePayment } from "../services/api";
 
 function Transactions() {
   const [payments, setPayments] = useState([]);
@@ -14,6 +14,18 @@ function Transactions() {
       setPayments(data.data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this transaction?")) {
+      try {
+        await deletePayment(id);
+        setPayments(payments.filter(p => p._id !== id));
+      } catch (error) {
+        console.error("Failed to delete payment:", error);
+        alert("Failed to delete transaction.");
+      }
     }
   };
 
@@ -36,6 +48,7 @@ function Transactions() {
               <th className="p-3">Status</th>
               <th className="p-3">Idempotency Key</th>
               <th className="p-3">Created At</th>
+              <th className="p-3 text-center">Actions</th>
             </tr>
           </thead>
 
@@ -71,6 +84,15 @@ function Transactions() {
 
                 <td className="p-3 text-gray-500 text-sm">
                   {new Date(p.createdAt).toLocaleString()}
+                </td>
+
+                <td className="p-3 text-center">
+                  <button
+                    onClick={() => handleDelete(p._id)}
+                    className="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1 rounded transition text-sm font-medium border border-transparent hover:border-red-200"
+                  >
+                    Delete
+                  </button>
                 </td>
 
               </tr>

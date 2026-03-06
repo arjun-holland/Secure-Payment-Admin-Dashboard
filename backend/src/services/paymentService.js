@@ -70,8 +70,23 @@ async function getAllTransactions() {
   return transactions;
 }
 
+async function deletePayment(id) {
+  const transaction = await Transaction.findByIdAndDelete(id);
+
+  if (transaction) {
+    const redisClient = getRedisClient();
+    if (redisClient) {
+      const cacheKey = `txn:${transaction.transactionId}`;
+      await redisClient.del(cacheKey);
+    }
+  }
+
+  return transaction;
+}
+
 module.exports = {
   createPayment,
   getTransactionById,
   getAllTransactions,
+  deletePayment,
 };
