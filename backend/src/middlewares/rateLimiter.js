@@ -2,10 +2,10 @@ const rateLimit = require("express-rate-limit");
 
 const paymentRateLimiter = rateLimit({
     // windowMs: 15 * 60 * 1000, // 15 minutes window
-    windowMs: 10 * 1000, // 10 
-    max: 5, // Limit each IP to 5 payment creation requests per `window` (here, per 15 minutes)
+    windowMs: 10 * 1000, // 10 seconds window
+    max: 5, // Limit each IP to 5 payment creation requests per `window` (here, per 10 minutes)
     message: {
-        message: "Too many payment requests from this IP, please try again after 15 minutes."
+        message: "Too many payment requests from this IP, please try again after 10 seconds."
     },
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
