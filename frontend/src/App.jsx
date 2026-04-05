@@ -6,8 +6,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { isAuthenticated, logout, getCurrentUser } from "./services/auth";
 
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/login" replace />;
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const user = getCurrentUser();
+  if (!isAuthenticated() || !user) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to={user.role === "admin" ? "/transactions" : "/"} replace />;
+  }
+  return children;
 };
 
 const DashboardLayout = ({ children }) => {
@@ -21,20 +26,6 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-gray-900 text-white flex flex-col">
-        <div className="text-2xl font-bold p-6 border-b border-gray-700">
-          SecurePay
-        </div>
-        <nav className="flex flex-col p-4 gap-4">
-          <Link to="/" className="hover:bg-gray-700 p-2 rounded transition">
-            Create Payment
-          </Link>
-          <Link to="/transactions" className="hover:bg-gray-700 p-2 rounded transition">
-            Transactions
-          </Link>
-        </nav>
-      </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
@@ -71,7 +62,7 @@ function App() {
         <Route
           path="/"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={["user"]}>
               <DashboardLayout>
                 <CreatePayment />
               </DashboardLayout>
@@ -81,7 +72,7 @@ function App() {
         <Route
           path="/transactions"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={["admin"]}>
               <DashboardLayout>
                 <Transactions />
               </DashboardLayout>

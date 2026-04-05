@@ -6,19 +6,18 @@ const { createPayment, getTransactionById } = require("../services/paymentServic
  */
 async function createPaymentController(req, res) {
   try {
-    const { name, userId, amount } = req.body;
+    const { name, amount } = req.body;
     const idempotencyKey = req.idempotencyKey;
 
     // Validation
-    if (!name || !userId || !amount) {
+    if (!name || !amount) {
       return res.status(400).json({
-        message: "Name, userId and amount are required"
+        message: "Name and amount are required"
       });
     }
 
     const transaction = await createPayment({
       name,
-      userId,
       amount,
       idempotencyKey
     });
@@ -26,7 +25,6 @@ async function createPaymentController(req, res) {
     return res.status(201).json({
       transactionId: transaction.transactionId,
       name: transaction.name,
-      userId: transaction.userId,
       amount: transaction.amount,
       status: transaction.status,
       idempotencyKey: transaction.idempotencyKey
@@ -59,7 +57,6 @@ async function getPaymentController(req, res) {
     return res.json({
       transactionId: txn.transactionId,
       name: txn.name,
-      userId: txn.userId,
       amount: txn.amount,
       status: txn.status,
       idempotencyKey: txn.idempotencyKey

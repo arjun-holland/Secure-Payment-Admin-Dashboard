@@ -12,10 +12,7 @@ const transactionSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    userId: {
-      type: String,
-      required: true
-    },
+
     amount: {
       type: Number,
       required: true

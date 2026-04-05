@@ -6,10 +6,11 @@ const { createPaymentController } = require("../controllers/paymentController");
 
 const idempotencyMiddleware = require("../middlewares/idempotency");
 const authMiddleware = require("../middlewares/authMiddleware");
+const authorizeRoles = require("../middlewares/rbacMiddleware");
 const { paymentRateLimiter } = require("../middlewares/rateLimiter");
 
-router.post("/payments", authMiddleware, paymentRateLimiter, idempotencyMiddleware, createPaymentController);
-router.get("/payments", authMiddleware, getAllTransactionsController);
-router.delete("/payments/:id", authMiddleware, deletePaymentController);
+router.post("/payments", authMiddleware, authorizeRoles("user"), paymentRateLimiter, idempotencyMiddleware, createPaymentController);
+router.get("/payments", authMiddleware, authorizeRoles("admin"), getAllTransactionsController);
+router.delete("/payments/:id", authMiddleware, authorizeRoles("admin"), deletePaymentController);
 
 module.exports = router;
