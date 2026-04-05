@@ -6,7 +6,7 @@ const { getRedisClient } = require("../utils/redisClient");
  * WRITE PATH — NO REDIS HERE
  * MongoDB is the source of truth
  */
-async function createPayment({ name, userId, amount, idempotencyKey }) {
+async function createPayment({ name, amount, idempotencyKey }) {
 
   const existingTxn = await Transaction.findOne({ idempotencyKey });
 
@@ -17,7 +17,6 @@ async function createPayment({ name, userId, amount, idempotencyKey }) {
   const transaction = new Transaction({
     transactionId: generateTransactionId(),
     name,
-    userId,
     amount,
     idempotencyKey,
     status: "SUCCESS"

@@ -43,6 +43,7 @@ function Transactions() {
           <thead className="bg-gray-100 border-b">
             <tr>
               <th className="p-3">Transaction ID</th>
+              <th className="p-3">Name</th>
               <th className="p-3">Amount</th>
               <th className="p-3">Status</th>
               <th className="p-3">Idempotency Key</th>
@@ -61,6 +62,10 @@ function Transactions() {
 
                 <td className="p-3 font-mono text-sm">
                   {p.transactionId}
+                </td>
+
+                <td className="p-3 font-medium text-gray-800">
+                  {p.name}
                 </td>
 
                 <td className="p-3">
